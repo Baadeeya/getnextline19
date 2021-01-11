@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/01/11 18:07:03 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/01/11 18:16:23 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,17 @@ char	*ft_strjoined(char const *s1, char const *s2)
 
 int	get_next_line(int fd, char **line)
 {
-	int			i;
-	int			x;
-	char		*buf;
+	int				i;
+	int				x;
+	char			*buf;
+	static char		*cat;
 
 	i = -1;
 	x = -1;
 	buf = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
-	read(fd, buf, BUFFER_SIZE);
-	while (*line[++i])
-		
-	x = -1;
+	while (cat)
+	{
+		read(fd, buf, BUFFER_SIZE);
+		cat = ft_strjoined(cat, buf);
+	}
 }
