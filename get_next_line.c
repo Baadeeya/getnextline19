@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/01/12 17:27:12 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/01/12 18:28:57 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ char	*ft_strjoined(char const *s1, char const *s2)
 
 	if (!(join = malloc(sizeof(char) * (ft_strlen(s1) + 1 + ft_strlen(s2)))))
 	{
-		if (s1)
-			free((void *)s1);
+	//	if (s1)
+	//		free((void *)s1);
 		return (NULL);
 	}
 	i = -1;
@@ -140,64 +140,22 @@ int		get_next_line(int fd, char **line)
 
 #include <stdlib.h>
 #include <fcntl.h>
+#include <string.h>
 
-void	ft_putchar_fd(char c, int fd)
-{
-	if (fd >= 0)
-		write(fd, &c, 1);
-}
-
-void	ft_putstr_fd(char *s, int fd)
-{
-	if (s)
-	{
-		while (*s)
-		{
-			ft_putchar_fd(*s, fd);
-			s++;
-		}
-	}
-}
-
-void	ft_putendl(char *s, int fd)
-{
-	if (s)
-	{
-		ft_putstr_fd(s, fd);
-		ft_putchar_fd('\n', fd);
-	}
-}
-
-void	add(char *str)
-{
-	static char	*a;
-
-	if (!a)
-		printf("First occurence\n");
-	else
-		printf("last occurence was : %s\n", a);
-	a = str;
-}
-
-int 	main(void)
+int		main(void)
 {
 	int		fd;
+	char	*line;
+	int		i;
 	int		ret;
-	char	*str;
 
-	str = NULL;
-	if ((fd = open("lol.txt", O_RDONLY)) < 0)
-		return (1);
-	ret = 12;
-	while (ret > 0)
+	i = 0;
+	fd = open(("lol.txt"), O_RDONLY);
+	while (i < 3)
 	{
-		ret = get_next_line(fd, &str);
-		if (ret < 0)
-			break;
-		printf("%d : '%s'\n", ret, str);
-		free(str);
+		line = (char *)malloc(sizeof(*line) * 1);
+		ret = get_next_line(fd, &line);
+		printf("|%d||%s|\n", ret, line);
+		i++;
 	}
-	if ((close(fd)) < 0)
-		return (1);
-	return (0);
 }
