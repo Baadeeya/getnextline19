@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/01/12 18:28:57 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/01/13 16:15:56 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ int		ft_linebool(char *str)
 {
 	int		i;
 
-	i = 0;
 	if (!str)
 		return (0);
-	while (str[i])
-		if (str[i++] == '\n')
+	i = -1;
+	while (str[++i])
+		if (str[i] == '\n')
 			return (i);
 	return (0);
 }
@@ -85,15 +85,13 @@ char	*ft_strjoined(char const *s1, char const *s2)
 
 	if (!(join = malloc(sizeof(char) * (ft_strlen(s1) + 1 + ft_strlen(s2)))))
 	{
-	//	if (s1)
-	//		free((void *)s1);
+		if (s1)
+			free((void *)s1);
 		return (NULL);
 	}
 	i = -1;
 	while (s1[++i])
-	{
 		join[i] = s1[i];
-	}
 	x = -1;
 	while (s2[++x])
 		join[i++] = s2[x];
@@ -111,31 +109,40 @@ int		get_next_line(int fd, char **line)
 
 	if (!line)
 		return (-1);
+	write(1, &cat[0], 1);
 	i = 0;
 	if (!(buf = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1)))
 		return (-1);
-	if (!(cat = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1)))
-		return (-1);
+		if (!(cat = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1)))
+			return (-1);
 	while (!ft_linebool(cat))
 	{
 		o = (int)read(fd, buf, BUFFER_SIZE);
 		buf[o] = '\0';
 		if (!(cat = ft_strjoined(cat, buf)))
 			return (-1);
-		//		write(1, "penis", 6);
 	}
-	i = ft_linebool(buf);
-	*line = (char *)malloc(sizeof(char) * i + 1);
-	ft_memcpy(*line, cat, i);
-	if (*line[i - 1] == '\n')
-		return (1);
-	if (!*line[i - 1])
-		return (0);
-	else
+	free((void *)buf);
+	i = ft_linebool(cat);
+	if (!(*line = ft_substr(cat, 0, i)))
+	{
 		return (-1);
-	tmp = ft_substr(cat, i, o - i);
+		// apres faut free oublie pas connard
+	}
+	//	if (*line[i - 1] == '\n')
+	//		return (1);
+	//	if (!*line[i - 1])
+	//		return (0);
+	//	else
+	//		return (-1);
+	tmp = ft_substr(cat, i + 1, o - i);
 	free(cat);
-	cat = ft_substr(tmp, 0, o - i);
+	cat = ft_substr(tmp, 0, ft_strlen(cat) - i - 1);
+	if (o)
+		return (1);
+	return (0);
+	//	return (o == 0 ? 0 : 1);
+
 }
 
 #include <stdlib.h>
@@ -158,4 +165,5 @@ int		main(void)
 		printf("|%d||%s|\n", ret, line);
 		i++;
 	}
+	return (0);
 }
