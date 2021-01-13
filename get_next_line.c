@@ -6,15 +6,11 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/01/13 19:11:45 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/01/13 19:50:33 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/uio.h>
-#include <stdio.h>
+#include "get_next_line.h"
 
 size_t	ft_strlen(const char *str)
 {
@@ -92,6 +88,13 @@ char	*ft_strjoined(char const *s1, char const *s2)
 	return (join);
 }
 
+int		ft_error(int fd, char **line)
+{
+	if (fd < 0 || fd > OPEN_MAX || !line || BUFFER_SIZE < 1)
+		return (1);
+	return (0);
+}
+
 int		get_next_line(int fd, char **line)
 {
 	int			i;
@@ -100,7 +103,7 @@ int		get_next_line(int fd, char **line)
 	char		*tmp;
 	static char	*cat;
 
-	if (!line)
+	if (ft_error)
 		return (-1);
 	o = 1;
 	if (!(buf = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1)))
@@ -119,10 +122,7 @@ int		get_next_line(int fd, char **line)
 	free((void *)buf);
 	i = (ft_linebool(cat) - 1);
 	if (!(*line = ft_substr(cat, 0, i)))
-	{
 		return (-1);
-		// apres faut free oublie pas connard
-	}
 	if (!(tmp = ft_substr(cat, i + 1, ft_strlen(cat) - i - 1)))
 		return (-1);
 	free((void *)cat);
@@ -130,9 +130,9 @@ int		get_next_line(int fd, char **line)
 		return (-1);
 	return (o == 0 ? 0 : 1);
 }
-/*
-#include <stdio.h>
 #include <fcntl.h>
+#include <stdio.h>
+#include <limits.h>
 
 int		main(void)
 {
@@ -141,15 +141,14 @@ int		main(void)
 	int		i;
 	int		ret;
 
+	printf("%d", OPEN_MAX);
 	i = 0;
 	fd = open(("lol.txt"), O_RDONLY);
 	while (i < 5)
 	{
 		line = (char *)malloc(sizeof(*line) * 1);
 		ret = get_next_line(fd, &line);
-		printf("|%d||%s|\n", ret, line);
+		printf("|%d| |%s|\n", ret, line);
 		i++;
 	}
-	return (0);
 }
-*/
