@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/01/13 16:15:56 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/01/13 19:11:45 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <stdio.h>
-
-
 
 size_t	ft_strlen(const char *str)
 {
@@ -39,7 +37,7 @@ int		ft_linebool(char *str)
 	i = -1;
 	while (str[++i])
 		if (str[i] == '\n')
-			return (i);
+			return (i + 1);
 	return (0);
 }
 
@@ -80,22 +78,17 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 char	*ft_strjoined(char const *s1, char const *s2)
 {
 	char	*join;
-	int		i;
-	int		x;
 
-	if (!(join = malloc(sizeof(char) * (ft_strlen(s1) + 1 + ft_strlen(s2)))))
+	if (!(join = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1 + ft_strlen(s2)))))
 	{
 		if (s1)
 			free((void *)s1);
 		return (NULL);
 	}
-	i = -1;
-	while (s1[++i])
-		join[i] = s1[i];
-	x = -1;
-	while (s2[++x])
-		join[i++] = s2[x];
-	join[i] = '\0';
+	ft_memcpy(join, s1, ft_strlen(s1));
+	ft_memcpy(join + ft_strlen(s1), s2, ft_strlen(s2));
+	join[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+	free((void *)s1);
 	return (join);
 }
 
@@ -109,45 +102,37 @@ int		get_next_line(int fd, char **line)
 
 	if (!line)
 		return (-1);
-	write(1, &cat[0], 1);
-	i = 0;
+	o = 1;
 	if (!(buf = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1)))
 		return (-1);
-		if (!(cat = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1)))
-			return (-1);
-	while (!ft_linebool(cat))
+	while (!ft_linebool(cat) && o)
 	{
-		o = (int)read(fd, buf, BUFFER_SIZE);
-		buf[o] = '\0';
+		if ((o = (int)read(fd, buf, BUFFER_SIZE)) < 0)
+		{
+			free((void *)buf);
+			return (-1);
+		}
+		buf[o] = 0;
 		if (!(cat = ft_strjoined(cat, buf)))
 			return (-1);
 	}
 	free((void *)buf);
-	i = ft_linebool(cat);
+	i = (ft_linebool(cat) - 1);
 	if (!(*line = ft_substr(cat, 0, i)))
 	{
 		return (-1);
 		// apres faut free oublie pas connard
 	}
-	//	if (*line[i - 1] == '\n')
-	//		return (1);
-	//	if (!*line[i - 1])
-	//		return (0);
-	//	else
-	//		return (-1);
-	tmp = ft_substr(cat, i + 1, o - i);
-	free(cat);
-	cat = ft_substr(tmp, 0, ft_strlen(cat) - i - 1);
-	if (o)
-		return (1);
-	return (0);
-	//	return (o == 0 ? 0 : 1);
-
+	if (!(tmp = ft_substr(cat, i + 1, ft_strlen(cat) - i - 1)))
+		return (-1);
+	free((void *)cat);
+	if (!(cat = ft_substr(tmp, 0, ft_strlen(tmp))))
+		return (-1);
+	return (o == 0 ? 0 : 1);
 }
-
-#include <stdlib.h>
+/*
+#include <stdio.h>
 #include <fcntl.h>
-#include <string.h>
 
 int		main(void)
 {
@@ -158,7 +143,7 @@ int		main(void)
 
 	i = 0;
 	fd = open(("lol.txt"), O_RDONLY);
-	while (i < 3)
+	while (i < 5)
 	{
 		line = (char *)malloc(sizeof(*line) * 1);
 		ret = get_next_line(fd, &line);
@@ -167,3 +152,4 @@ int		main(void)
 	}
 	return (0);
 }
+*/
