@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 13:11:22 by dgutin            #+#    #+#             */
-/*   Updated: 2021/01/14 14:03:59 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/01/14 14:38:31 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,10 @@ int		ft_error(int fd, char **line)
 	if (fd < 0 || fd > OPEN_MAX || !line || BUFFER_SIZE < 1)
 		return (1);
 	return (0);
+}
+
+int		ft_free(char *str)
+{
+	free((void *)str);
+	return (-1);
 }

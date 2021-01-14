@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/01/14 14:09:42 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/01/14 15:07:38 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,14 @@ char	*ft_strjoined(char const *s1, char const *s2)
 	return (join);
 }
 
-char	*ft_stock(char *cat, char *buf, int o, int fd)
+char	*ft_swap(char *tmp, char *cat, int i, char *buf)
 {
-	while (!ft_linebool(cat) && o)
-	{
-		if ((o = (int)read(fd, buf, BUFFER_SIZE)) < 0)
-		{
-			free((void *)buf);
-			return (NULL);
-		}
-		buf[o] = 0;
-		if (!(cat = ft_strjoined(cat, buf)))
-			return (NULL);
-	}
+	free((void *)buf);
+	if (!(tmp = ft_substr(cat, i + 1, ft_strlen(cat) - i - 1)))
+		return (NULL);
+	free((void *)cat);
+	if (!(cat = ft_substr(tmp, 0, ft_strlen(tmp))))
+		return (NULL);
 	return (cat);
 }
 
@@ -85,25 +80,27 @@ int		get_next_line(int fd, char **line)
 	char		*tmp;
 	static char	*cat;
 
-	if (ft_error(fd, line))
+	if ((o = 1) != 1 || fd < 0 || fd > OPEN_MAX || !line || BUFFER_SIZE < 1)
 		return (-1);
-	o = 1;
 	if (!(buf = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1)))
 		return (-1);
-	if (!(cat = ft_stock(cat, buf, o, fd)))
-		return (-1);
-	free((void *)buf);
+	while (!ft_linebool(cat) && o)
+	{
+		if ((o = (int)read(fd, buf, BUFFER_SIZE)) < 0)
+			return (ft_free(buf));
+		buf[o] = 0;
+		if (!(cat = ft_strjoined(cat, buf)))
+			return (-1);
+	}
 	i = (ft_linebool(cat) - 1);
 	if (!(*line = ft_substr(cat, 0, i)))
 		return (-1);
-	if (!(tmp = ft_substr(cat, i + 1, ft_strlen(cat) - i - 1)))
-		return (-1);
-	free((void *)cat);
-	if (!(cat = ft_substr(tmp, 0, ft_strlen(tmp))))
+	tmp = NULL;
+	if (!(cat = ft_swap(tmp, cat, i, buf)))
 		return (-1);
 	return (o == 0 ? 0 : 1);
 }
-
+/*
 #include <fcntl.h>
 #include <stdio.h>
 
@@ -116,7 +113,7 @@ int		main(void)
 
 	i = 0;
 	fd = open(("lol.txt"), O_RDONLY);
-	while (i < 5)
+	while (i < 22)
 	{
 		line = (char *)malloc(sizeof(*line) * 1);
 		ret = get_next_line(fd, &line);
@@ -124,3 +121,4 @@ int		main(void)
 		i++;
 	}
 }
+*/
