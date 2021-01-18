@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/01/18 16:42:28 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/01/18 17:21:04 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int		get_next_line(int fd, char **line)
 		return (-1);
 	return (o == 0 ? 0 : 1);
 }
-
+/*
 #include <fcntl.h>
 #include <stdio.h>
 
@@ -113,7 +113,7 @@ int		main(void)
 
 	i = 0;
 	fd = open(("lol.txt"), O_RDONLY);
-	while (i < 4)
+	while (i < 100)
 	{
 		line = (char *)malloc(sizeof(*line) * 1);
 		ret = get_next_line(fd, &line);
@@ -121,3 +121,4 @@ int		main(void)
 		i++;
 	}
 }
+*/
