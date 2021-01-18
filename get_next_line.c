@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/01/18 17:21:04 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/01/18 18:08:40 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,11 @@ int		get_next_line(int fd, char **line)
 		return (-1);
 	return (o == 0 ? 0 : 1);
 }
-/*
+
 #include <fcntl.h>
 #include <stdio.h>
 
-int		main(void)
+int		main(int argc, char **argv)
 {
 	int		fd;
 	char	*line;
@@ -121,4 +121,4 @@ int		main(void)
 		i++;
 	}
 }
-*/
+
