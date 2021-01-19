@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/01/18 18:08:40 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/01/19 14:44:08 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	*ft_swap(char *tmp, char *cat, int i, char *buf)
 	free((void *)cat);
 	if (!(cat = ft_substr(tmp, 0, ft_strlen(tmp))))
 		return (NULL);
+	free((void *)tmp);
 	return (cat);
 }
 
@@ -120,5 +121,6 @@ int		main(int argc, char **argv)
 		printf("|%d| |%s|\n", ret, line);
 		i++;
 	}
+	free((void *)line);
 }
 
