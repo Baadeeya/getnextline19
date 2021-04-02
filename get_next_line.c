@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/04/02 17:47:56 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/04/02 18:18:07 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	main(int argc, char **argv)
 
 	i = 0;
 	fd = open(("lol.txt"), O_RDONLY);
-	while (i < 100)
+	while (i < 6)
 	{
 		line = (char *)malloc(sizeof(*line) * 1);
 		ret = get_next_line(fd, &line);
