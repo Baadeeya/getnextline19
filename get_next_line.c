@@ -6,13 +6,13 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/01/19 18:50:26 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/04/02 17:47:56 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		ft_linebool(char *str)
+int	ft_linebool(char *str)
 {
 	int		i;
 
@@ -35,7 +35,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	i = 0;
 	if (start >= ft_strlen(s))
 		len = 0;
-	if (!(sub = (char*)malloc(sizeof(char) * (len + 1))))
+	sub = (char *)malloc(sizeof(char) * (len + 1));
+	if (!sub)
 		return (NULL);
 	while (i < len && s[start])
 		sub[i++] = s[start++];
@@ -47,8 +48,8 @@ char	*ft_strjoined(char const *s1, char const *s2)
 {
 	char	*join;
 
-	if (!(join = (char *)malloc(sizeof(char) *
-					(ft_strlen(s1) + 1 + ft_strlen(s2)))))
+	join = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1 + ft_strlen(s2)));
+	if (!join)
 	{
 		if (s1)
 			free((void *)s1);
@@ -61,19 +62,23 @@ char	*ft_strjoined(char const *s1, char const *s2)
 	return (join);
 }
 
-char	*ft_swap(char *tmp, char *cat, int i, char *buf)
+int	ft_gnl(int i, char *cat, char *buf, char **line)
 {
-	free((void *)buf);
-	if (!(tmp = ft_substr(cat, i + 1, ft_strlen(cat) - i - 1)))
-		return (NULL);
-	free((void *)cat);
-	if (!(cat = ft_substr(tmp, 0, ft_strlen(tmp))))
-		return (NULL);
-	free((void *)tmp);
-	return (cat);
+	char	*tmp;
+
+	tmp = NULL;
+	i = (ft_linebool(cat) - 1);
+	*line = ft_substr(cat, 0, i);
+	if (!*line)
+		return (0);
+	tmp = NULL;
+	cat = ft_swap(tmp, cat, i, buf);
+	if (!cat)
+		return (0);
+	return (1);
 }
 
-int		get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	int			i;
 	int			o;
@@ -81,31 +86,31 @@ int		get_next_line(int fd, char **line)
 	char		*tmp;
 	static char	*cat;
 
-	if ((o = 1) != 1 || fd < 0 || fd > OPEN_MAX || !line || BUFFER_SIZE < 1)
+	o = 1;
+	if (o != 1 || fd < 0 || fd > OPEN_MAX || !line || BUFFER_SIZE < 1)
 		return (-1);
-	if (!(buf = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1)))
+	buf = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!buf)
 		return (-1);
 	while (!ft_linebool(cat) && o)
 	{
-		if ((o = (int)read(fd, buf, BUFFER_SIZE)) < 0)
+		o = (int)read(fd, buf, BUFFER_SIZE);
+		if (o < 0)
 			return (ft_free(buf));
 		buf[o] = 0;
-		if (!(cat = ft_strjoined(cat, buf)))
+		cat = ft_strjoined(cat, buf);
+		if (!cat)
 			return (-1);
 	}
-	i = (ft_linebool(cat) - 1);
-	if (!(*line = ft_substr(cat, 0, i)))
+	if (!ft_gnl(i, cat, buf, line))
 		return (-1);
-	tmp = NULL;
-	if (!(cat = ft_swap(tmp, cat, i, buf)))
-		return (-1);
-	return (o == 0 ? 0 : 1);
+	return (o != 0);
 }
 
 #include <fcntl.h>
 #include <stdio.h>
 
-int		main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	int		fd;
 	char	*line;
@@ -123,4 +128,3 @@ int		main(int argc, char **argv)
 	}
 	free((void *)line);
 }
-

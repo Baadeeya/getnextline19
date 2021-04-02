@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 13:11:22 by dgutin            #+#    #+#             */
-/*   Updated: 2021/01/14 14:38:31 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/04/02 17:45:41 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 
 size_t	ft_strlen(const char *str)
 {
-	int i;
+	int	i;
 
 	if (!str)
 		return (0);
@@ -40,15 +40,29 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-int		ft_error(int fd, char **line)
+int	ft_error(int fd, char **line)
 {
 	if (fd < 0 || fd > OPEN_MAX || !line || BUFFER_SIZE < 1)
 		return (1);
 	return (0);
 }
 
-int		ft_free(char *str)
+int	ft_free(char *str)
 {
 	free((void *)str);
 	return (-1);
+}
+
+char	*ft_swap(char *tmp, char *cat, int i, char *buf)
+{
+	free((void *)buf);
+	tmp = ft_substr(cat, i + 1, ft_strlen(cat) - i - 1);
+	if (!tmp)
+		return (NULL);
+	free((void *)cat);
+	cat = ft_substr(tmp, 0, ft_strlen(tmp));
+	if (!cat)
+		return (NULL);
+	free((void *)tmp);
+	return (cat);
 }
