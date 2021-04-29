@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/04/29 14:24:18 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/04/29 16:34:53 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,7 @@ char	*ft_strjoined(char const *s1, char const *s2)
 
 	join = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1 + ft_strlen(s2)));
 	if (!join)
-	{
-		if (s1)
-			free((void *)s1);
 		return (NULL);
-	}
 	i = 0;
 	while (i < ft_strlen(s1))
 	{
@@ -80,14 +76,19 @@ char	*ft_strjoined(char const *s1, char const *s2)
 int	ft_gnl(int i, char *cat, char *buf, char **line)
 {
 	char	*tmp;
+	int		x;
 
+	x = -1;
 	tmp = NULL;
-	i = (ft_linebool(cat) - 1);
-	*line = ft_substr(cat, 0, i);
-	if (!*line)
+	i = ft_linebool(cat);
+	tmp = ft_substr(cat, i, ft_strlen(cat));
+	*line = ft_substr(cat, 0, i - 1);
+	if (!tmp || !*line)
 		return (0);
-	tmp = NULL;
-	cat = ft_swap(tmp, cat, i, buf);
+	while (tmp[++x])
+		cat[x] = tmp[x];
+	cat[x] = '\0';
+	free((void *)tmp);
 	if (!cat)
 		return (0);
 	return (1);
@@ -111,34 +112,13 @@ int	get_next_line(int fd, char **line)
 		o = (int)read(fd, buf, BUFFER_SIZE);
 		if (o < 0)
 			return (ft_free(buf));
-		buf[o] = 0;
+		buf[o] = '\0';
 		cat = ft_strjoined(cat, buf);
 		if (!cat)
 			return (-1);
 	}
 	if (!ft_gnl(i, cat, buf, line))
 		return (-1);
+	free((void *)buf);
 	return (o != 0);
-}
-
-#include <fcntl.h>
-#include <stdio.h>
-
-int	main(int argc, char **argv)
-{
-	char	*line;
-	int		fd;
-
-	line = "HELLO";
-
-	fd = open("lol.txt", O_RDONLY);
-	while (0 < (fd = get_next_line(fd, &line)))
-	{
-		printf("%s", line);
-		printf("\n-----------------\n");
-		free(line);
-		printf("%i\n", fd);
-	}
-	close(fd);
-	return (0);
 }
