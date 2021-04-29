@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/04/02 18:18:07 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/04/29 14:24:18 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,13 @@ int	ft_linebool(char *str)
 
 	if (!str)
 		return (0);
-	i = -1;
-	while (str[++i])
+	i = 0;
+	while (str[i])
+	{
 		if (str[i] == '\n')
 			return (i + 1);
+		i++;
+	}
 	return (0);
 }
 
@@ -47,6 +50,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 char	*ft_strjoined(char const *s1, char const *s2)
 {
 	char	*join;
+	size_t	i;
+	size_t	x;
 
 	join = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1 + ft_strlen(s2)));
 	if (!join)
@@ -55,10 +60,20 @@ char	*ft_strjoined(char const *s1, char const *s2)
 			free((void *)s1);
 		return (NULL);
 	}
-	ft_memcpy(join, s1, ft_strlen(s1));
-	ft_memcpy(join + ft_strlen(s1), s2, ft_strlen(s2));
-	join[ft_strlen(s1) + ft_strlen(s2)] = '\0';
-	free((void *)s1);
+	i = 0;
+	while (i < ft_strlen(s1))
+	{
+		join[i] = s1[i];
+		i++;
+	}
+	x = 0;
+	while (x < ft_strlen(s2))
+	{
+		join[i] = s2[x];
+		i++;
+		x++;
+	}
+	join[i] = '\0';
 	return (join);
 }
 
@@ -83,7 +98,6 @@ int	get_next_line(int fd, char **line)
 	int			i;
 	int			o;
 	char		*buf;
-	char		*tmp;
 	static char	*cat;
 
 	o = 1;
@@ -112,19 +126,19 @@ int	get_next_line(int fd, char **line)
 
 int	main(int argc, char **argv)
 {
-	int		fd;
 	char	*line;
-	int		i;
-	int		ret;
+	int		fd;
 
-	i = 0;
-	fd = open(("lol.txt"), O_RDONLY);
-	while (i < 6)
+	line = "HELLO";
+
+	fd = open("lol.txt", O_RDONLY);
+	while (0 < (fd = get_next_line(fd, &line)))
 	{
-		line = (char *)malloc(sizeof(*line) * 1);
-		ret = get_next_line(fd, &line);
-		printf("|%d| |%s|\n", ret, line);
-		i++;
+		printf("%s", line);
+		printf("\n-----------------\n");
+		free(line);
+		printf("%i\n", fd);
 	}
-	free((void *)line);
+	close(fd);
+	return (0);
 }
