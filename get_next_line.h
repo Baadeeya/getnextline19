@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 19:28:57 by dgutin            #+#    #+#             */
-/*   Updated: 2021/04/02 18:17:16 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/05/11 16:41:01 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@ int		get_next_line(int fd, char **line);
 size_t	ft_strlen(const char *str);
 int		ft_linebool(char *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-void	*ft_memcpy(void *dst, const void *src, size_t n);
 char	*ft_strjoined(char const *s1, char const *s2);
-int		ft_error(int fd, char **line);
 int		ft_free(char *str);
-int		ft_gnl(int i, char *cat, char *buf, char **line);
-char	*ft_swap(char *tmp, char *cat, int i, char *buf);
+int		ft_gnl(char *cat, char **line);
 
 #endif
