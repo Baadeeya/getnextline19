@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/04/29 16:34:53 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/05/27 20:20:04 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (sub);
 }
 
-char	*ft_strjoined(char const *s1, char const *s2)
+char	*ft_strjoined(char *s1, char const *s2)
 {
 	char	*join;
 	size_t	i;
@@ -70,6 +70,7 @@ char	*ft_strjoined(char const *s1, char const *s2)
 		x++;
 	}
 	join[i] = '\0';
+	free(s1);
 	return (join);
 }
 
