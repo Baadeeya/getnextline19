@@ -6,7 +6,11 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/05/27 20:20:04 by dgutin           ###   ########.fr       */
+=======
+/*   Updated: 2021/05/11 16:42:11 by dgutin           ###   ########.fr       */
+>>>>>>> 836eef1944d67660ff26f9d02ef78920411e9ea7
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +78,11 @@ char	*ft_strjoined(char *s1, char const *s2)
 	return (join);
 }
 
-int	ft_gnl(int i, char *cat, char *buf, char **line)
+int	ft_gnl(char *cat, char **line)
 {
 	char	*tmp;
 	int		x;
+	int		i;
 
 	x = -1;
 	tmp = NULL;
@@ -97,7 +102,6 @@ int	ft_gnl(int i, char *cat, char *buf, char **line)
 
 int	get_next_line(int fd, char **line)
 {
-	int			i;
 	int			o;
 	char		*buf;
 	static char	*cat;
@@ -118,7 +122,7 @@ int	get_next_line(int fd, char **line)
 		if (!cat)
 			return (-1);
 	}
-	if (!ft_gnl(i, cat, buf, line))
+	if (!ft_gnl(cat, line))
 		return (-1);
 	free((void *)buf);
 	return (o != 0);
