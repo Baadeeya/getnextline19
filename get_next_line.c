@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/05/27 21:16:25 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/05/28 03:09:12 by dgutin           ###   ########.fr       */
 /*   Updated: 2021/05/11 16:42:11 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -48,7 +48,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (sub);
 }
 
-char	*ft_strjoined(char *s1, char const *s2)
+char	*ft_strjoined(char *s1, char *s2)
 {
 	char	*join;
 	size_t	i;
@@ -82,7 +82,6 @@ int	ft_gnl(char *cat, char **line)
 	int		i;
 
 	x = -1;
-	tmp = NULL;
 	i = ft_linebool(cat);
 	tmp = ft_substr(cat, i, ft_strlen(cat));
 	*line = ft_substr(cat, 0, i - 1);
@@ -91,7 +90,7 @@ int	ft_gnl(char *cat, char **line)
 	while (tmp[++x])
 		cat[x] = tmp[x];
 	cat[x] = '\0';
-	free((void *)tmp);
+	free(tmp);
 	if (!cat)
 		return (0);
 	return (1);
@@ -108,7 +107,7 @@ int	get_next_line(int fd, char **line)
 		return (-1);
 	buf = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!buf)
-		return (-1);
+		return (ft_free(buf));
 	while (!ft_linebool(cat) && o)
 	{
 		o = (int)read(fd, buf, BUFFER_SIZE);
@@ -117,10 +116,10 @@ int	get_next_line(int fd, char **line)
 		buf[o] = '\0';
 		cat = ft_strjoined(cat, buf);
 		if (!cat)
-			return (-1);
+			return (ft_free(buf));
 	}
 	if (!ft_gnl(cat, line))
-		return (-1);
-	free((void *)buf);
+		return (ft_free(buf));
+	free(buf);
 	return (o != 0);
 }

@@ -28,5 +28,5 @@ int		main(int ac, char **av)
 	printf("line[%d]: %s\n", nb_line, line);
 	free(line);
 	line = NULL;
-		system("leaks a.out");
+	system("leaks a.out");
 }
