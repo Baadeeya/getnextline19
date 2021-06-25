@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/06/25 12:25:59 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/06/25 14:20:44 by dgutin           ###   ########.fr       */
 /*   Updated: 2021/05/11 16:42:11 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -111,8 +111,12 @@ int	get_next_line(int fd, char **line)
 	while (!ft_linebool(cat[fd]) && o)
 	{
 		o = (int)read(fd, buf, BUFFER_SIZE);
-		if (o < 0)
+		if (o <= 0)
+		{
+			if (o == 0)
+				free(cat);
 			return (ft_free(buf));
+		}
 		buf[o] = '\0';
 		cat[fd] = ft_strjoined(cat[fd], buf);
 		if (!cat[fd])
