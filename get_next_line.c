@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/05/28 03:09:12 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/06/25 12:25:59 by dgutin           ###   ########.fr       */
 /*   Updated: 2021/05/11 16:42:11 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -100,7 +100,7 @@ int	get_next_line(int fd, char **line)
 {
 	int			o;
 	char		*buf;
-	static char	*cat;
+	static char	*cat[OPEN_MAX];
 
 	o = 1;
 	if (o != 1 || fd < 0 || fd > OPEN_MAX || !line || BUFFER_SIZE < 1)
@@ -108,17 +108,17 @@ int	get_next_line(int fd, char **line)
 	buf = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!buf)
 		return (ft_free(buf));
-	while (!ft_linebool(cat) && o)
+	while (!ft_linebool(cat[fd]) && o)
 	{
 		o = (int)read(fd, buf, BUFFER_SIZE);
 		if (o < 0)
 			return (ft_free(buf));
 		buf[o] = '\0';
-		cat = ft_strjoined(cat, buf);
-		if (!cat)
+		cat[fd] = ft_strjoined(cat[fd], buf);
+		if (!cat[fd])
 			return (ft_free(buf));
 	}
-	if (!ft_gnl(cat, line))
+	if (!ft_gnl(cat[fd], line))
 		return (ft_free(buf));
 	free(buf);
 	return (o != 0);
