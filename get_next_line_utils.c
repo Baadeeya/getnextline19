@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 13:11:22 by dgutin            #+#    #+#             */
-/*   Updated: 2021/05/28 02:02:10 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/06/25 15:46:00 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-int	ft_free(char *str)
+int	ft_free(char *str, int r)
 {
 	if (str)
 		free(str);
-	return (-1);
+	return (r);
 }
