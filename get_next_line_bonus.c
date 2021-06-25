@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dgutin </var/mail/dgutin>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/11 17:15:51 by dgutin            #+#    #+#             */
-/*   Updated: 2021/06/25 15:18:06 by dgutin           ###   ########.fr       */
-/*   Updated: 2021/05/11 16:42:11 by dgutin           ###   ########.fr       */
+/*   Created: 2021/06/25 15:09:06 by dgutin            #+#    #+#             */
+/*   Updated: 2021/06/25 15:09:35 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	ft_linebool(char *str)
 {
@@ -102,7 +101,7 @@ int	get_next_line(int fd, char **line)
 	char		*buf;
 	static char	*cat[OPEN_MAX];
 
-	line = NULL;
+	*line = NULL;
 	o = 1;
 	if (o != 1 || fd < 0 || fd > OPEN_MAX || !line || BUFFER_SIZE < 1)
 		return (-1);
