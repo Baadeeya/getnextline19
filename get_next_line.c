@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 14:34:28 by dgutin            #+#    #+#             */
-/*   Updated: 2021/07/20 18:19:30 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/07/20 18:58:57 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,17 @@ char	*ft_gnl(char *cat)
 	char	*tmp;
 	int		i;
 
-	if (!cat[i])
+	i = 0;
+	if (!cat[0])
 		if (ft_linebool(cat) < 0)
 			return (NULL);
 	line = ft_substr(cat, 0, ft_linebool(cat));
 	tmp = ft_substr(cat, ft_linebool(cat) + 1, ft_strlen(cat));
-	if (ft_linebool(cat) >= 0)
-		while (tmp[i])
-		{
-			cat[i] = tmp[i];
-			i++;
-		}
+	while (tmp[i] && ft_linebool(cat) >= 0)
+	{
+		cat[i] = tmp[i];
+		i++;
+	}
 	cat[i] = '\0';
 	free(tmp);
 	return (line);
@@ -116,13 +116,12 @@ char	*get_next_line(int fd)
 		o = (int)read(fd, buf, BUFFER_SIZE);
 		if (o < 0)
 			return (ft_free(buf));
-		if (o == 0)
-			break;
+//		if (o == 0)
+//			break ;
 		buf[o] = '\0';
 		cat = ft_strjoined(cat, buf);
 		if (!cat)
 			return (ft_free(buf));
 	}
-//	free(buf);
 	return (ft_gnl(cat));
 }
