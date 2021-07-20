@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 14:34:28 by dgutin            #+#    #+#             */
-/*   Updated: 2021/07/20 17:05:36 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/07/20 18:19:30 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,9 @@ char	*get_next_line(int fd)
 	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE < 1 || BUFFER_SIZE > INT_MAX)
 		return (NULL);
 	o = 1;
-	buf = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	buf = NULL;
+	if (o)
+		buf = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!buf)
 		return (ft_free(buf));
 	while (ft_linebool(cat) < 0 && o)
@@ -114,13 +116,13 @@ char	*get_next_line(int fd)
 		o = (int)read(fd, buf, BUFFER_SIZE);
 		if (o < 0)
 			return (ft_free(buf));
-//		if (o == 0 && cat)
-//			ft_free(buf);
+		if (o == 0)
+			break;
 		buf[o] = '\0';
 		cat = ft_strjoined(cat, buf);
 		if (!cat)
 			return (ft_free(buf));
 	}
-	free(buf);
+//	free(buf);
 	return (ft_gnl(cat));
 }
