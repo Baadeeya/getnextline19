@@ -6,7 +6,7 @@
 /*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 19:28:57 by dgutin            #+#    #+#             */
-/*   Updated: 2021/07/20 18:56:33 by dgutin           ###   ########.fr       */
+/*   Updated: 2021/07/21 15:36:57 by dgutin           ###   ########.fr       */
 /*   Updated: 2021/05/11 16:41:01 by dgutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -28,5 +28,6 @@ void	*ft_memcpy(void *dst, const void *src, size_t n);
 char	*ft_strjoined(char *s1, char *s2);
 char	*ft_gnl(char *cat);
 char	*ft_free(char *str);
+void	*ft_memmove(void *dst, const void *src, size_t len);
 
 #endif
