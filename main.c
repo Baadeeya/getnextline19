@@ -1,54 +1,29 @@
-#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <fcntl.h>
-#include <stdlib.h>
-#include "get_next_line.h"
-/*
-int		main(int ac, char **av)
+# include "get_next_line.h"
+# include <stdio.h>
+ 
+int main ()
 {
-	char	*line;
-	int		nb_line;
-	int		fd;
-	int		fd2;
-	int		fd3;
-
-	if (ac < 2)
-		return (0);
-	nb_line = 1;
-	if ((fd = open(av[1], O_RDONLY)) == -1)
-		printf("le fichier n'existe pas.");
-	line = NULL;
-	while ((line = get_next_line(fd)) > 0)
-	{
-		printf("line[%d]: %s\n", nb_line, line);
-		free(line);
-		line = NULL;
-		nb_line++;
-	}
-	printf("line[%d]: %s\n", nb_line, line);
-	free(line);
-	
-	return (0);
-}*/
-
-int	main(int ac, char **av)
-{
-	char	*line;
-	int		fd;
-	int		i;
-
-	if (ac < 2)
-		return (0);
-	if ((fd = open(av[1], O_RDONLY)) == -1)
-		printf("Le fichier n'existe pas.");
-	line = NULL;
-
-	while (i < 52)
-	{
-		line = get_next_line(fd);
-		printf("[%d]", i);
-		printf("%s\n", line);
-		free(line);
-		i++;
-	}
-	return (0);
+    int fd;
+    int ret;
+    int i;
+    
+    char *line;
+    fd = open("to_open.txt", O_RDONLY);
+    i = 0;
+    line = "test";
+    while (line)
+    {
+        line = get_next_line(fd);
+        printf("buffer size: |%d|   line: |%s|      loop : |%d| \n", BUFFER_SIZE, line, i);
+        printf("\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n");
+        i++;
+        free(line);
+    }
+    line = NULL;
+    free(line);
+    close(fd);
+    system("leaks a.out");
 }
