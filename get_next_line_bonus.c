@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgutin <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dagutin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/22 17:31:03 by dgutin            #+#    #+#             */
-/*   Updated: 2021/07/22 17:31:24 by dgutin           ###   ########.fr       */
+/*   Created: 2023/06/20 17:22:39 by dagutin           #+#    #+#             */
+/*   Updated: 2023/06/20 17:22:43 by dagutin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 1
+
+#endif
 
 static char	*ft_free(char *str)
 {

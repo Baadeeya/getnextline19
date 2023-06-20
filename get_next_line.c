@@ -6,11 +6,15 @@
 /*   By: dagutin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 14:53:47 by dagutin           #+#    #+#             */
-/*   Updated: 2023/06/17 14:53:54 by dagutin          ###   ########.fr       */
+/*   Updated: 2023/06/20 17:21:05 by dagutin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 1
+
+#endif
 
 static char	*ft_free(char *str)
 {
